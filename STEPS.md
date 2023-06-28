@@ -1,4 +1,4 @@
-create s3 bucket form asw cli to manage Terraform state file:
+create s3 bucket form asw cli to manage terraform.tfstate file:
     aws s3api create-bucket --bucket <bucket-name> --region <region> --create-bucket-configuration LocationConstraint=<region>
 
 enable versioning for the bucket to retaint Terraform state file history in case of accidental deletions or modifications: 
