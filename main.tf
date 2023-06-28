@@ -145,7 +145,3 @@ resource "aws_instance" "wordpress_instance" {
   subnet_id             = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
 }
-
-output "aws_instance" {
-  value = aws_instance.wordpress_instance.public_ip
-}
