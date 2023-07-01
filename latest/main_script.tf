@@ -264,10 +264,3 @@ resource "null_resource" "upload_media_files" {
     command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wp_bucket.bucket}/'"
   }
 } */
-
-
-
-
-
-
-
