@@ -57,7 +57,7 @@ find /var/www -type f -exec chmod 0664 {} \;
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
-wp core download --path=/var/www/html/wordpress --allow-root
+wp core download --path=/var/www/html --allow-root
 wp config create --dbname=$db_name --dbuser=$db_username --dbpass=$db_user_password --dbhost=$db_RDS --path=/var/www/html --allow-root --extra-php <<PHP
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '128M');
