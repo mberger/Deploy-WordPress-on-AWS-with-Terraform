@@ -232,7 +232,7 @@ output "RDS-endpoint" {
 }
 
 output "INFO" {
-  value = "AWS Resources and Wordpress has been provisioned. Go to http://${aws_eip.eip.public_ip}"
+  value = "AWS Resources and Wordpress has been provisioned. Go to http://${aws_eip.eip.public_ip}/html/index.php"
 }
 
 
