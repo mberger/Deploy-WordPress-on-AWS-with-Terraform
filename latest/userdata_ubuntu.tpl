@@ -33,10 +33,19 @@ mv wp-cli.phar /usr/local/bin/wp
 
 # Download and configure WordPress
 wp core download --path=/var/www/html --allow-root
-wp config create --dbname=$db_name --dbuser=$db_username --dbpass=$db_user_password --dbhost=$db_RDS --path=/var/www/html --allow-root --extra-php <<PHP
-define('FS_METHOD', 'direct');
+cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+sed -i "s/database_name_here/$db_name/g" /var/www/html/wp-config.php
+sed -i "s/username_here/$db_username/g" /var/www/html/wp-config.php
+sed -i "s/password_here/$db_user_password/g" /var/www/html/wp-config.php
+sed -i "s/localhost/$db_RDS/g" /var/www/html/wp-config.php
+cat <<EOF >> /var/www/html/wp-config.php
+define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '128M');
-PHP
+EOF
+# wp config create --dbname=$db_name --dbuser=$db_username --dbpass=$db_user_password --dbhost=$db_RDS --path=/var/www/html --allow-root --extra-php <<PHP
+# define('FS_METHOD', 'direct');
+# define('WP_MEMORY_LIMIT', '128M');
+# PHP
 
 # Change ownership and permissions of /var/www/html
 chown -R ubuntu:www-data /var/www/html
