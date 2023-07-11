@@ -42,10 +42,6 @@ cat <<EOF >> /var/www/html/wp-config.php
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '128M');
 EOF
-# wp config create --dbname=$db_name --dbuser=$db_username --dbpass=$db_user_password --dbhost=$db_RDS --path=/var/www/html --allow-root --extra-php <<PHP
-# define('FS_METHOD', 'direct');
-# define('WP_MEMORY_LIMIT', '128M');
-# PHP
 
 # Change ownership and permissions of /var/www/html
 chown -R ubuntu:www-data /var/www/html
