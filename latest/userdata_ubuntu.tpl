@@ -6,6 +6,8 @@ db_username=${db_username}
 db_user_password=${db_user_password}
 db_name=${db_name}
 db_RDS=${db_RDS}
+access_key=${access_key}
+secret_access_key=${secret_access_key}
 
 # Update and upgrade packages
 apt update -y
@@ -41,6 +43,15 @@ sed -i "s/localhost/$db_RDS/g" /var/www/html/wp-config.php
 cat <<EOF >> /var/www/html/wp-config.php
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '128M');
+define( 'AS3CF_SETTINGS', serialize( array (
+
+    'provider' => 'aws',
+
+    'access-key-id' => '$access_key',
+
+    'secret-access-key' => '$secret_access_key',
+
+) ) );
 EOF
 
 # Change ownership and permissions of /var/www/html
