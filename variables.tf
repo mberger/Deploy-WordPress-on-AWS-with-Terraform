@@ -1,18 +1,3 @@
-variable "database_name" {
-    description = "Name of the database"
-    type = string
-    default = "admin"
-}
-variable "database_password" {
-    description = "Password for the database user"
-    type = string
-    default = "password"
-}
-variable "database_user" {
-    description = "Username for the database"
-    type        = string
-    default = "admin"
-}
 variable "shared_credentials_file" {
     description = "Location of the AWS credentials file"
     type        = string
