@@ -46,9 +46,7 @@ define('WP_MEMORY_LIMIT', '128M');
 define( 'AS3CF_SETTINGS', serialize( array (
 
     'provider' => 'aws',
-
     'access-key-id' => '$access_key',
-
     'secret-access-key' => '$secret_access_key',
 
 ) ) );
