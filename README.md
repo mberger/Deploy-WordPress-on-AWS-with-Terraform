@@ -48,5 +48,5 @@ None
 ## Background materials
 
 - <i class="far fa-exclamation"></i> [Deploy WordPress with Amazon RDS](https://aws.amazon.com/getting-started/hands-on/deploy-wordpress-with-amazon-rds/)
-- <i class="far fa-exclamation"></i> [Using Amazon S3 with WordPress to securely deliver media files](https://aws.amazon.com/blogs/compute/deploying-a-highly-available-wordpress-site-on-[…]ing-amazon-s3-with-wordpress-to-securely-deliver-media-files/)
+- <i class="far fa-exclamation"></i> [Using Amazon S3 with WordPress to securely deliver media files](https://aws.amazon.com/blogs/compute/deploying-a-highly-available-wordpress-site-on-amazon-lightsail-part-2-using-amazon-s3-with-wordpress-to-securely-deliver-media-files/)
 - <i class="far fa-exclamation"></i> [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
