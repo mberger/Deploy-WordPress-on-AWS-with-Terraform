@@ -1,52 +1,51 @@
-# Terraforming Mars
-
-## Story
-
-You are living your ordinary earthbound life and you see a white shining Tesla fastly approaching. As it comes closer it drifts in front of you - it’s Elon Musk himself. He was browsing and he was not satisfied with the quality of other websites, except the Ask Mate 3 professional website. Ever since then he thinks you can make the next big step in modern application development, deploying it in WordPress. He leaves with this note in a hurry and drives away into the sunset.
-
-## What are you going to learn?
-
-- How to use an efficient Terraform state file storing solution
-- How to use an efficient Terraform state locking solution
-
-## Tasks
-
-1. After we move to the Mars let's clear the Moon
-    - Remove all earlier created Terraform resources with Terraform
-
-2. Set S3 and DynamoDB as the backend and locking service for your Terraform project
-    - An S3 bucket created from the AWS Console
-    - A DynamoDB table created from the AWS Console
-    - Your Terraform state file is managed from an S3 bucket
-    - Terraform state locking is setup with DynamoDB
-
-3. Host your WordPress website with the help of Terraform. Create the server for your WordPress application using the EC2 resource of Terraform.
-    - An EC2 instance using Ubuntu created by Terraform
-    - You being able to connect to this instance using SSH
-
-4. Make an RDS for the MySQL database of WordPress
-    - Your RDS successfully created with the usage of Terraform
-    - You can connect to the database successfully
-
-5. Make an S3 bucket for storing the media files of WordPress
-    - Your S3 bucket successfully created with the usage of Terraform
-    - Your media files are uploaded to this S3 bucket
-
-6. Configure WordPress on the resources that you created with Terraform
-    - Your default WordPress page is reachable by your browser after configuration
-
-## General requirements
-
-None
-
-## Hints
-
-- The way to remove Terraform resources is the destroy them. ```terraform destroy```
-- Your S3 bucket for storing the Terraform state file, and your DynamoDB table for Terraform state locking are needed to be done from the AWS Console and not by Terraform because Terraform cannot work with resources that are not created yet
-- After setting the state file storing with S3, Terraform asks if it should copy your local Terraform state file to the S3 bucket
-
-## Background materials
-
-- <i class="far fa-exclamation"></i> [Deploy WordPress with Amazon RDS](https://aws.amazon.com/getting-started/hands-on/deploy-wordpress-with-amazon-rds/)
-- <i class="far fa-exclamation"></i> [Using Amazon S3 with WordPress to securely deliver media files](https://aws.amazon.com/blogs/compute/deploying-a-highly-available-wordpress-site-on-amazon-lightsail-part-2-using-amazon-s3-with-wordpress-to-securely-deliver-media-files/)
-- <i class="far fa-exclamation"></i> [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+Terraform WordPress Deployment on AWS
+This Terraform project allows you to deploy a WordPress website on AWS using EC2, RDS, and S3. It sets up an Ubuntu EC2 instance, an RDS MySQL database, and an S3 bucket for media files storage. The Terraform state file will be managed from an S3 bucket, and the Terraform state locking is set up with DynamoDB.
+Prerequisites
+Before you start, make sure you have the following prerequisites:
+    1. Terraform installed on your machine.
+    2. AWS CLI installed and configured with your AWS access key and secret access key.
+Installation
+    1. Create an S3 bucket to manage the Terraform state file:
+        ◦ Go to the AWS Management Console.
+        ◦ Navigate to the S3 service.
+        ◦ Click on "Create bucket."
+        ◦ Enter a unique name for your bucket.
+        ◦ Choose a region for the bucket (e.g., "eu-west-1" for Ireland).
+        ◦ Set Bucket Versioning to "Enable"
+        ◦ Leave the rest of the settings as default and click "Create bucket."
+    2. Create a DynamoDB table to manage the Terraform state locking service:
+        ◦ Go to the AWS Management Console.
+        ◦ Navigate to the DynamoDB service.
+        ◦ Click on "Create table."
+        ◦ Enter a unique table name (e.g., "TerraformLocks").
+        ◦ Use "LockID" as the Partition key and choose the data type "String."
+        ◦ Click on "Create" to create the table.
+    3. Clone this repository to your local machine.
+    4. Create a secrets directory in the project root and add the following files:
+        ◦ aws_access_key_id.txt: Your AWS access key ID.
+        ◦ aws_secret_access_key.txt: Your AWS secret access key.
+        ◦ database_name.txt: The name of the MySQL database for WordPress.
+        ◦ database_password.txt: The password for the MySQL database.
+        ◦ database_user.txt: The username for the MySQL database.
+       Note: Make sure to keep these files safe and never share them publicly.
+    5. Update the variables.tf file with your desired settings (region, instance type, etc.).
+    6. Initialize Terraform:
+       terraform init
+    7. Apply the Terraform configuration:
+       terraform apply
+       This will create the AWS resources and deploy the WordPress website.
+Accessing WordPress
+Once the deployment is complete, you can access your WordPress website using the public IP address provided in the Terraform output. Open your web browser and navigate to the provided IP address.
+Cleanup
+To clean up and destroy all the resources created by this Terraform project, run:
+bashCopy code
+terraform destroy
+Note: This action will permanently delete all the resources. Make sure you have backed up any important data before running this command.
+Additional Notes
+    • The project uses an Ubuntu EC2 instance. You can change the AMI in aws_ami.tf if you prefer a different operating system.
+    • The userdata_ubuntu.tpl script installs WordPress and configures it with the provided database and S3 settings.
+    • The EC2 instance is launched with an SSH key named "MYKEYEC2." If you don't have an existing key pair, create one and update the key_name in main.tf.
+    • The S3 bucket is created to store media files for WordPress. You can customize the bucket name in main.tf.
+Disclaimer
+This project deals with sensitive information, such as AWS access keys and database credentials. Take extra precautions to secure this data and avoid sharing it with unauthorized parties. Always follow best security practices when working with cloud resources.
+USE THIS PROJECT AT YOUR OWN RISK. THE AUTHOR ASSUMES NO RESPONSIBILITY OR LIABILITY FOR ANY DAMAGES OR LOSSES CAUSED BY USING THIS PROJECT.
