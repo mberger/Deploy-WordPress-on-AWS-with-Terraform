@@ -46,25 +46,25 @@ resource "aws_subnet" "private_subnet_2" {
   map_public_ip_on_launch = "false" // it makes private subnet
 }
 
-resource "aws_internet_gateway" "mars_igw" {
+resource "aws_internet_gateway" "internet_gtw" {
   vpc_id = aws_vpc.mars_vpc.id
   tags = {
     Name = "mars-igw"
   }
 }
 
-resource "aws_route_table" "mars_route_table" {
+resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.mars_vpc.id
 }
 
 resource "aws_route" "default_route" {
-  route_table_id         = aws_route_table.mars_route_table.id
+  route_table_id         = aws_route_table.route_table.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.mars_igw.id
+  gateway_id             = aws_internet_gateway.internet_gtw.id
 }
 
 resource "aws_route_table_association" "rtb_association" {
-  route_table_id = aws_route_table.mars_route_table.id
+  route_table_id = aws_route_table.route_table.id
   subnet_id      = aws_subnet.public_subnet.id
 }
 
