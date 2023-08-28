@@ -18,7 +18,7 @@ resource "aws_vpc" "wordpress_vpc" {
   enable_dns_support = "true" // gives you an internal domain name
   enable_dns_hostnames = "true" // gives you an internal host name
   tags = {
-    Name = "mars-vpc"
+    Name = "wordpress-vpc"
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_subnet" "private_subnet_2" {
 resource "aws_internet_gateway" "internet_gtw" {
   vpc_id = aws_vpc.wordpress_vpc.id
   tags = {
-    Name = "mars-igw"
+    Name = "wordpress-igw"
   }
 }
 
@@ -241,7 +241,7 @@ output "INFO" {
 
 
 resource "aws_s3_bucket" "wordpress_bucket" {
-  bucket = "wp-mars-bucket"
+  bucket = "wordpress-bucket"
   force_destroy = true
 }
 
