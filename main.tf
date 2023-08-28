@@ -13,7 +13,7 @@ terraform {
   }
 }
 
-resource "aws_vpc" "mars_vpc" {
+resource "aws_vpc" "wordpress_vpc" {
   cidr_block = var.VPC_cidr
   enable_dns_support = "true" // gives you an internal domain name
   enable_dns_hostnames = "true" // gives you an internal host name
@@ -24,7 +24,7 @@ resource "aws_vpc" "mars_vpc" {
 
 // Public Subnet for EC2
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.mars_vpc.id
+  vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet1_cidr
   availability_zone = var.AZ1
   map_public_ip_on_launch = "true" // it makes this a public subnet
@@ -32,7 +32,7 @@ resource "aws_subnet" "public_subnet" {
 
 // Private subnet for RDS
 resource "aws_subnet" "private_subnet_1" {
-  vpc_id            = aws_vpc.mars_vpc.id
+  vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet2_cidr
   availability_zone = var.AZ2
   map_public_ip_on_launch = "false" // it makes private subnet
@@ -40,21 +40,21 @@ resource "aws_subnet" "private_subnet_1" {
 
 // Second Private subnet for RDS
 resource "aws_subnet" "private_subnet_2" {
-  vpc_id            = aws_vpc.mars_vpc.id
+  vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet3_cidr
   availability_zone = var.AZ3
   map_public_ip_on_launch = "false" // it makes private subnet
 }
 
 resource "aws_internet_gateway" "internet_gtw" {
-  vpc_id = aws_vpc.mars_vpc.id
+  vpc_id = aws_vpc.wordpress_vpc.id
   tags = {
     Name = "mars-igw"
   }
 }
 
 resource "aws_route_table" "route_table" {
-  vpc_id = aws_vpc.mars_vpc.id
+  vpc_id = aws_vpc.wordpress_vpc.id
 }
 
 resource "aws_route" "default_route" {
@@ -73,7 +73,7 @@ resource "aws_security_group" "instance_sg" {
   name        = "wordpress-sg"
   description = "Security group for WordPress EC2 instance"
 
-  vpc_id = aws_vpc.mars_vpc.id
+  vpc_id = aws_vpc.wordpress_vpc.id
 
   ingress {
     description = "SSH"
@@ -117,7 +117,7 @@ resource "aws_security_group" "instance_sg" {
 
 // Security group for RDS
 resource "aws_security_group" "RDS_allow_rule" {
-  vpc_id = aws_vpc.mars_vpc.id
+  vpc_id = aws_vpc.wordpress_vpc.id
   ingress {
     from_port       = 3306
     to_port         = 3306
@@ -240,28 +240,17 @@ output "INFO" {
 
 
 
-resource "aws_s3_bucket" "wp_bucket" {
+resource "aws_s3_bucket" "wordpress_bucket" {
   bucket = "wp-mars-bucket"
   force_destroy = true
 }
 
 resource "aws_s3_bucket_ownership_controls" "bucket_owner_controll" {
-  bucket = aws_s3_bucket.wp_bucket.id
+  bucket = aws_s3_bucket.wordpress_bucket.id
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
-
-// with this part u can change the access of the s3 bucket
-/* resource "aws_s3_bucket_public_access_block" "bucket_public_access" {
-  bucket = aws_s3_bucket.wp_bucket.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
- */
 
 resource "aws_s3_bucket_acl" "bucket_acl" {
   depends_on = [
@@ -269,16 +258,16 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
     //aws_s3_bucket_public_access_block.bucket_public_access
     ]
 
-  bucket = aws_s3_bucket.wp_bucket.id
+  bucket = aws_s3_bucket.wordpress_bucket.id
   // if u want to change the bucket to public-read do this: acl = "public-read"
   acl    = "private"
 }
 
 # Upload files and directories from a local directory to an S3 bucket
 resource "null_resource" "upload_media_files" {
-  depends_on = [aws_s3_bucket.wp_bucket]
+  depends_on = [aws_s3_bucket.wordpress_bucket]
 
   provisioner "local-exec" {
-    command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wp_bucket.bucket}/'"
+    command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wordpress_bucket.bucket}/'"
   }
 }
