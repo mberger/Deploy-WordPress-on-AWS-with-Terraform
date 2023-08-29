@@ -13,7 +13,7 @@ Before you start, make sure you have the following prerequisites:
 
    - The project uses an Ubuntu EC2 instance. You can change the AMI in aws_ami.tf if you prefer a different operating system.
    - The userdata_ubuntu.tpl script installs WordPress and configures it with the provided database and S3 settings.
-   - The EC2 instance is launched with an SSH key named "MYKEYEC2." If you don't have an existing key pair, create one and update the       key_name in main.tf and upgrade the default value of the "PRIV_KEY_PATH" like this: default = "/path/of/your/key.pem".
+   - The EC2 instance is launched with an SSH key named "MYKEYEC2." If you don't have an existing key pair, create one and update the key_name in main.tf and upgrade the default value of the "PRIV_KEY_PATH" like this: default = "/path/of/your/key.pem".
    - The S3 bucket is created to store media files for WordPress. You can customize the bucket name in main.tf.
 
 ## Installation
@@ -46,13 +46,31 @@ Before you start, make sure you have the following prerequisites:
   
     Note: Make sure to keep these files safe and never share them publicly.
 
-5. Update the variables.tf file with your desired settings (region, instance type, etc.).
+## Configuration
+
+1. Open the main.tf file in your preferred text editor.
+
+2. Locate the terraform block that looks like this:
+
+   ```t
+      terraform {
+         backend "s3" {
+            bucket         = "terraforming-mars"
+            key            = "terraform.tfstate"
+            region         = "eu-west-1"
+            dynamodb_table = "terraforming-mars"
+         }
+      }
+   ```
+3. Update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table, respectively.
+
+4. Update the variables.tf file with your desired settings (region, instance type, etc.).
    
-6. Initialize Terraform:
+5. Initialize Terraform:
    
        terraform init
 
-7. Apply the Terraform configuration:
+6. Apply the Terraform configuration:
 
        terraform apply
 
@@ -73,4 +91,3 @@ Note: This action will permanently delete all the resources. Make sure you have 
 ## Disclaimer
 
 This project deals with sensitive information, such as AWS access keys and database credentials. Take extra precautions to secure this data and avoid sharing it with unauthorized parties. Always follow best security practices when working with cloud resources.
-USE THIS PROJECT AT YOUR OWN RISK. THE AUTHOR ASSUMES NO RESPONSIBILITY OR LIABILITY FOR ANY DAMAGES OR LOSSES CAUSED BY USING THIS PROJECT.
