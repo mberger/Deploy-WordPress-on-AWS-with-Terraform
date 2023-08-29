@@ -12,13 +12,23 @@ Before you start, make sure you have the following prerequisites:
 ## Additional Notes
 
    - The project uses an Ubuntu EC2 instance. You can change the AMI in aws_ami.tf if you prefer a different operating system.
+   - The EC2 instance is launched with an SSH key.
    - The userdata_ubuntu.tpl script installs WordPress and configures it with the provided database and S3 settings.
-   - The EC2 instance is launched with an SSH key named "MYKEYEC2." If you don't have an existing key pair, create one and update the key_name in main.tf and upgrade the default value of the "PRIV_KEY_PATH" like this: default = "/path/of/your/key.pem".
-   - The S3 bucket is created to store media files for WordPress. You can customize the bucket name in main.tf.
+   - The S3 bucket is created to store media files for WordPress.
 
-## Installation
+## Initial AWS Resource Setup
 
-1. Clone this repository to your local machine.
+1. If you don't have an existing key pair to launch the EC2 instance with SSH key:
+   - Go to the AWS Management Console.
+   - Navigate to the EC2 service.
+   - Click on "Key pairs".
+   - Click on "Create key pair".
+   - Give a name to your key.
+   - Choose the "RSA" key pair type.
+   - Choose the ".pem" private key file format.
+   - Click on "Create key pair".
+  
+    Note: When you generate a key pair through the AWS Management Console, the private key file will be downloaded directly to your computer. Move it to the "~/.ssh/" location.
 
 2. Create an S3 bucket to manage the Terraform state file:
    - Go to the AWS Management Console.
@@ -37,7 +47,12 @@ Before you start, make sure you have the following prerequisites:
    - Use "LockID" as the Partition key and choose the data type "String."
    - Click on "Create" to create the table.
  
-4. Create a secrets directory in the project root and add the following files:
+
+## Configuration
+
+1. Clone this repository to your local machine.
+
+2. Create a secrets directory in the project root and add the following files:
    - aws_access_key_id.txt: Your AWS access key ID.
    - aws_secret_access_key.txt: Your AWS secret access key.
    - database_name.txt: The name of the MySQL database for WordPress.
@@ -46,11 +61,9 @@ Before you start, make sure you have the following prerequisites:
   
     Note: Make sure to keep these files safe and never share them publicly.
 
-## Configuration
+3. Open the main.tf file in your preferred text editor.
 
-1. Open the main.tf file in your preferred text editor.
-
-2. Locate the terraform block that looks like this:
+3. Locate the terraform block that looks like this:
 
    ```t
       terraform {
@@ -62,15 +75,18 @@ Before you start, make sure you have the following prerequisites:
          }
       }
    ```
-3. Update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table, respectively.
 
-4. Update the variables.tf file with your desired settings (region, instance type, etc.).
+4. Update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table, respectively.
+
+5. Update the key_name in main.tf.
+
+6. Update the variables.tf file with your desired settings (region, instance type, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
    
-5. Initialize Terraform:
+7. Initialize Terraform:
    
        terraform init
 
-6. Apply the Terraform configuration:
+8. Apply the Terraform configuration:
 
        terraform apply
 
@@ -78,7 +94,7 @@ Before you start, make sure you have the following prerequisites:
 
 ## Accessing WordPress
 
-Once the deployment is complete, you can access your WordPress website using the public IP address provided in the Terraform output. Open your web browser and navigate to the provided IP address.
+Once the deployment is complete, you can access your WordPress website using the public IP address provided in the Terraform output.
 
 ## Cleanup
 
@@ -88,6 +104,6 @@ To clean up and destroy all the resources created by this Terraform project, run
 
 Note: This action will permanently delete all the resources. Make sure you have backed up any important data before running this command.
 
-## Disclaimer
+## Reminder
 
 This project deals with sensitive information, such as AWS access keys and database credentials. Take extra precautions to secure this data and avoid sharing it with unauthorized parties. Always follow best security practices when working with cloud resources.
