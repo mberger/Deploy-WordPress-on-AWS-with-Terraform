@@ -196,11 +196,6 @@ resource "aws_instance" "wordpress_instance" {
   depends_on = [ aws_db_instance.wordpress_db ]
 }
 
-/* // Sends your public key to the instance
-resource "aws_key_pair" "mykey_pair" {
-  key_name = "MYKEYEC2"
-  public_key = file(var.PUBLIC_KEY_PATH)
-} */
 
 // Crating elastic IP for EC2
 resource "aws_eip" "eip" {
