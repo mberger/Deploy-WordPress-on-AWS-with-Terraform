@@ -18,7 +18,7 @@ Before you start, make sure you have the following prerequisites:
 
 ## Initial AWS Resource Setup
 
-1. If you don't have an existing key pair to launch the EC2 instance with SSH key:
+### If you don't have an existing key pair to launch the EC2 instance with SSH key:
    - Go to the AWS Management Console.
    - Navigate to the EC2 service.
    - Click on "Key pairs".
@@ -30,7 +30,7 @@ Before you start, make sure you have the following prerequisites:
   
     Note: When you generate a key pair through the AWS Management Console, the private key file will be downloaded directly to your computer. Move it to the "~/.ssh/" location.
 
-2. Create an S3 bucket to manage the Terraform state file:
+### Create an S3 bucket to manage the Terraform state file:
    - Go to the AWS Management Console.
    - Navigate to the S3 service.
    - Click on "Create bucket."
@@ -39,7 +39,7 @@ Before you start, make sure you have the following prerequisites:
    - Set Bucket Versioning to "Enable"
    - Leave the rest of the settings as default and click "Create bucket."
 
-3. Create a DynamoDB table to manage the Terraform state locking service:
+### Create a DynamoDB table to manage the Terraform state locking service:
    - Go to the AWS Management Console.
    - Navigate to the DynamoDB service.
    - Click on "Create table."
