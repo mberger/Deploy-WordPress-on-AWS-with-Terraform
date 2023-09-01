@@ -90,7 +90,7 @@ Before you start, make sure you have the following prerequisites:
 
        terraform apply
 
-    This will create the AWS resources and deploy the WordPress website.
+    Note: This will create the AWS resources and deploy the WordPress website.
 
 ## Accessing WordPress
 
