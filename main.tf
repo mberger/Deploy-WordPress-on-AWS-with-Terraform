@@ -1,9 +1,11 @@
+// Configure the AWS provider
 provider "aws" {
   region = var.region
   shared_credentials_files = [ var.shared_credentials_file ]
   profile = "default"
 }
 
+// Configure Terraform backend to store state files on S3 and lock with DynamoDB
 terraform {
   backend "s3" {
     bucket = "terraforming-mars"
@@ -13,6 +15,7 @@ terraform {
   }
 }
 
+// Create a VPC for the Wordpress application
 resource "aws_vpc" "wordpress_vpc" {
   cidr_block = var.VPC_cidr
   enable_dns_support = "true" // gives you an internal domain name
@@ -22,7 +25,7 @@ resource "aws_vpc" "wordpress_vpc" {
   }
 }
 
-// Public Subnet for EC2
+// Public Subnet for EC2 instance
 resource "aws_subnet" "public_subnet" {
   vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet1_cidr
@@ -30,7 +33,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = "true" // it makes this a public subnet
 }
 
-// Private subnet for RDS
+// Private subnet for RDS instance
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet2_cidr
@@ -38,7 +41,7 @@ resource "aws_subnet" "private_subnet_1" {
   map_public_ip_on_launch = "false" // it makes private subnet
 }
 
-// Second Private subnet for RDS
+// Second Private subnet for RDS instance
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.wordpress_vpc.id
   cidr_block        = var.subnet3_cidr
@@ -46,6 +49,7 @@ resource "aws_subnet" "private_subnet_2" {
   map_public_ip_on_launch = "false" // it makes private subnet
 }
 
+// Create an Internet Gateway for the VPC
 resource "aws_internet_gateway" "internet_gtw" {
   vpc_id = aws_vpc.wordpress_vpc.id
   tags = {
@@ -53,16 +57,19 @@ resource "aws_internet_gateway" "internet_gtw" {
   }
 }
 
+// Create a route table for the VPC
 resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.wordpress_vpc.id
 }
 
+// Define the default route for the route table
 resource "aws_route" "default_route" {
   route_table_id         = aws_route_table.route_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.internet_gtw.id
 }
 
+// Associate the route table with the public subnet
 resource "aws_route_table_association" "rtb_association" {
   route_table_id = aws_route_table.route_table.id
   subnet_id      = aws_subnet.public_subnet.id
@@ -162,8 +169,7 @@ resource "aws_db_instance" "wordpress_db" {
   }
 }
 
-// change USERDATA variable after grabbing RDS endpoint info
-// (currently wont happen anything because I use the same local variables everywhere)
+
 data "template_file" "user_data" {
   template = file("${path.module}/latest/userdata_ubuntu.tpl")
   vars = {
@@ -202,6 +208,7 @@ resource "aws_eip" "eip" {
   instance = aws_instance.wordpress_instance.id
 }
 
+// Null resource for waiting on Wordpress installation
 resource "null_resource" "Wordpress_installation_waiting" {
   // trigger will create new null-resource if ec2 or rds is changed
   triggers = {
@@ -221,6 +228,41 @@ resource "null_resource" "Wordpress_installation_waiting" {
   }
 }
 
+// Create an S3 bucket to store WordPress objects
+resource "aws_s3_bucket" "wordpress_bucket" {
+  bucket = "wordpress-bucket"
+  force_destroy = true
+}
+
+// Define ownership controls for the S3 bucket
+resource "aws_s3_bucket_ownership_controls" "bucket_owner_controll" {
+  bucket = aws_s3_bucket.wordpress_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+// Define ACL for the S3 bucket
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.bucket_owner_controll
+    ]
+
+  bucket = aws_s3_bucket.wordpress_bucket.id
+  // if u want to change the bucket to public-read do this: acl = "public-read"
+  acl    = "private"
+}
+
+# Upload files and directories from a local directory to the WordPress S3 bucket
+resource "null_resource" "upload_media_files" {
+  depends_on = [aws_s3_bucket.wordpress_bucket]
+
+  provisioner "local-exec" {
+    command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wordpress_bucket.bucket}/'"
+  }
+}
+
+// Output IP and RDS Endpoint information
 output "IP" {
   value = aws_eip.eip.public_ip
 }
@@ -231,38 +273,4 @@ output "RDS-endpoint" {
 
 output "INFO" {
   value = "AWS Resources and Wordpress has been provisioned. Go to http://${aws_eip.eip.public_ip}"
-}
-
-
-
-resource "aws_s3_bucket" "wordpress_bucket" {
-  bucket = "wordpress-bucket"
-  force_destroy = true
-}
-
-resource "aws_s3_bucket_ownership_controls" "bucket_owner_controll" {
-  bucket = aws_s3_bucket.wordpress_bucket.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "bucket_acl" {
-  depends_on = [
-    aws_s3_bucket_ownership_controls.bucket_owner_controll
-    //aws_s3_bucket_public_access_block.bucket_public_access
-    ]
-
-  bucket = aws_s3_bucket.wordpress_bucket.id
-  // if u want to change the bucket to public-read do this: acl = "public-read"
-  acl    = "private"
-}
-
-# Upload files and directories from a local directory to an S3 bucket
-resource "null_resource" "upload_media_files" {
-  depends_on = [aws_s3_bucket.wordpress_bucket]
-
-  provisioner "local-exec" {
-    command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wordpress_bucket.bucket}/'"
-  }
 }
