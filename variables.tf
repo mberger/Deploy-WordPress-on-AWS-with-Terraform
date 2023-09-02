@@ -59,6 +59,11 @@ variable "PRIV_KEY_PATH" {
     type        = string
     default = "~/.ssh/MYKEYEC2.pem"
 }
+variable "key_name" {
+  description = "Name of the EC2 key"
+  type = string
+  default = "MYKEYEC2"
+}
 variable "root_volume_size" {
     description = "Size of the root volume"
     type        = number
