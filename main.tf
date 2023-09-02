@@ -5,6 +5,11 @@ provider "aws" {
   profile = "default"
 }
 
+// Random provider to create random suffix for the S3 wordpress bucket
+provider "random" {
+  // (No specific configurations needed for the Random provider)
+}
+
 // Configure Terraform backend to store state files on S3 and lock with DynamoDB
 terraform {
   backend "s3" {
@@ -228,9 +233,17 @@ resource "null_resource" "Wordpress_installation_waiting" {
   }
 }
 
+// Create random suffix for the wordpress_bucket to be unique 
+resource "random_string" "suffix" {
+  length = 8
+  special = false
+  upper = false
+}
+
+
 // Create an S3 bucket to store WordPress objects
 resource "aws_s3_bucket" "wordpress_bucket" {
-  bucket = "wordpress-bucket"
+  bucket = "wordpress-bucket-${random_string.suffix.result}"
   force_destroy = true
 }
 
