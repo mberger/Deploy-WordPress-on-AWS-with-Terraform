@@ -194,7 +194,7 @@ resource "aws_instance" "wordpress_instance" {
   subnet_id             = aws_subnet.public_subnet.id  
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
   user_data = data.template_file.user_data.rendered
-  key_name              = "MYKEYEC2"
+  key_name              = var.key_name
   tags = {
     Name = "Wordpress.web"
   }
