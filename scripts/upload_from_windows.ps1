@@ -1,3 +1,6 @@
+# Look after the AWS CLI path if 
+$AWS_CLI_PATH = (Get-Command aws).Source
+
 # Define the destination S3 bucket
 $S3_BUCKET = $args[0]
 
