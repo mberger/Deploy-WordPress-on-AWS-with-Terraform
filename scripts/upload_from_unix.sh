@@ -1,20 +1,18 @@
-#!bin/bash
+#!/bin/bash
 
-# Look after the AWS CLI path if 
-AWS_CLI_PATH=$(which aws)
-
-# Define the destination S3 bucket
+# Your S3 bucket
 S3_BUCKET=$1
 
-# Create a temporary directory
+# Temporary directory
 TEMP_DIR=$(mktemp -d)
 
-# Initialize counter
+# Counter
 count=0
 
-# Find files under 10MB in /home and stop after finding 2 files
-find /home -type f -size 10240k | while read -r file; do
-  if [ "$count" -lt 2]; then
+# Find files smaller than 10MB
+find /home -type f -size -10240k | while read -r file; do
+  if [ "$count" -lt 2 ]; then
+    echo "Copying $file to $TEMP_DIR"
     cp "$file" "$TEMP_DIR/"
     ((count++))
   else
@@ -22,8 +20,12 @@ find /home -type f -size 10240k | while read -r file; do
   fi
 done
 
-# Upload all files from the temporary directory to S3
-AWS_CLI_PATH s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/"
+# Upload to S3
+echo "Uploading files to S3 bucket: $S3_BUCKET"
+aws s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/" || {
+  echo "Failed to upload to S3. Exiting."
+  exit 1
+}
 
-# Remove the temporary directory
-rm -r $TEMP_DIR
+# Clean up
+rm -r "$TEMP_DIR"
