@@ -240,7 +240,6 @@ resource "random_string" "suffix" {
   upper = false
 }
 
-
 // Create an S3 bucket to store WordPress objects
 resource "aws_s3_bucket" "wordpress_bucket" {
   bucket = "wordpress-bucket-${random_string.suffix.result}"
@@ -262,16 +261,31 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
     ]
 
   bucket = aws_s3_bucket.wordpress_bucket.id
-  // if u want to change the bucket to public-read do this: acl = "public-read"
   acl    = "private"
 }
 
-# Upload files and directories from a local directory to the WordPress S3 bucket
+// Upload the background wallpaper to the WordPress S3 bucket
 resource "null_resource" "upload_media_files" {
   depends_on = [aws_s3_bucket.wordpress_bucket]
 
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  // Check if AWS cli exists on unix based system
   provisioner "local-exec" {
-    command = "aws s3 sync '/home/mate/Dokumentumok' 's3://${aws_s3_bucket.wordpress_bucket.bucket}/'"
+    command = "if [ $(uname -s) != 'Windows_NT' ]; then which aws || exit 1; fi"
+  }
+  // Check if AWS cli exists on windows system
+  provisioner "local-exec" {
+    command = "if [ $(uname -s) == 'Windows_NT' ]; then where aws || exit 1; fi"
+  }
+  // Run the upload_from_unix.sh file
+  provisioner "local-exec" {
+  command = "if [ $(uname -s) != 'Windows_NT' ]; then chmod +x ${path.module}/scripts/upload_from_unix.sh && ${path.module}/scripts/upload_from_unix.sh ${aws_s3_bucket.wordpress_bucket.bucket}; fi"
+  }
+  // Run the upload_from_windows.ps1 file
+  provisioner "local-exec" {
+    command = "if [ $(uname -s) == 'Windows_NT' ]; then powershell.exe -File ${path.module}/scripts/upload_from_windows.ps1 ${aws_s3_bucket.wordpress_bucket.bucket}; fi"
   }
 }
 
