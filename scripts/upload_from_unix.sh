@@ -1,5 +1,8 @@
 #!bin/bash
 
+# Look after the AWS CLI path if 
+AWS_CLI_PATH=$(which aws)
+
 # Define the destination S3 bucket
 S3_BUCKET=$1
 
@@ -20,7 +23,7 @@ find /home -type f -size 10240k | while read -r file; do
 done
 
 # Upload all files from the temporary directory to S3
-aws s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/"
+AWS_CLI_PATH s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/"
 
 # Remove the temporary directory
 rm -r $TEMP_DIR
