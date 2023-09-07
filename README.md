@@ -90,6 +90,8 @@ Before you start, make sure you have the following prerequisites:
 
     Note: This will create the AWS resources and deploy the WordPress website.
 
+8. View of the infrastructure: ![Screenshot](WordPress-infrasructure.png)
+
 ## Accessing WordPress
 
 Once the deployment is complete, you can access your WordPress website using the public IP address provided in the Terraform output.
