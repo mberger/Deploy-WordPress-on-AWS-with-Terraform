@@ -52,7 +52,7 @@ Before you start, make sure you have the following prerequisites:
 
 1. Clone this repository to your local machine.
 
-2. Create a secrets directory in the project root and add the following files:
+2. Create a "secrets" directory in the project root and add the following files:
    - aws_access_key_id.txt: Your AWS access key ID.
    - aws_secret_access_key.txt: Your AWS secret access key.
    - database_name.txt: The name of the MySQL database for WordPress.
@@ -61,36 +61,32 @@ Before you start, make sure you have the following prerequisites:
   
     Note: Make sure to keep these files safe and never share them publicly.
 
-3. Open the main.tf file in your preferred text editor.
-
-3. Locate the terraform block that looks like this:
+3. In the "backend.tf" update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table:
 
    ```t
       terraform {
          backend "s3" {
-            bucket         = "terraforming-mars"
-            key            = "terraform.tfstate"
-            region         = "eu-west-1"
-            dynamodb_table = "terraforming-mars"
+            bucket         = "your-bucket-name"
+            key            = "terraform.tfstate"  
+            region         = "your-region"
+            dynamodb_table = "your-dynamodb_table-name"
          }
       }
    ```
 
-4. Update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table, respectively.
-
-5. Update the variables.tf file with your desired settings (region, instance type, key name, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
+4. Update the variables.tf file with your desired settings (region, instance type, key name, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
    
-6. Initialize Terraform:
+5. Initialize Terraform:
    
        terraform init
 
-7. Apply the Terraform configuration:
+6. Apply the Terraform configuration:
 
        terraform apply
 
     Note: This will create the AWS resources and deploy the WordPress website.
 
-8. View of the infrastructure: ![Screenshot](WordPress-infrasructure.png)
+7. View of the infrastructure: ![Screenshot](WordPress-infrasructure.png)
 
 ## Accessing WordPress
 
@@ -106,4 +102,4 @@ Note: This action will permanently delete all the resources. Make sure you have 
 
 ## Reminder
 
-This project deals with sensitive information, such as AWS access keys and database credentials. Take extra precautions to secure this data and avoid sharing it with unauthorized parties. Always follow best security practices when working with cloud resources.
+This project deals with sensitive information, such as AWS access keys and database credentials.Aavoid sharing these with unauthorized parties. Always follow best security practices when working with cloud resources.
