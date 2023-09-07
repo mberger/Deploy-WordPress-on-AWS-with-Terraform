@@ -78,15 +78,13 @@ Before you start, make sure you have the following prerequisites:
 
 4. Update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table, respectively.
 
-5. Update the key_name in main.tf.
-
-6. Update the variables.tf file with your desired settings (region, instance type, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
+5. Update the variables.tf file with your desired settings (region, instance type, key name, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
    
-7. Initialize Terraform:
+6. Initialize Terraform:
    
        terraform init
 
-8. Apply the Terraform configuration:
+7. Apply the Terraform configuration:
 
        terraform apply
 

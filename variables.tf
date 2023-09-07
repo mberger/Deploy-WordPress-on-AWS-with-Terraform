@@ -8,7 +8,6 @@ variable "region" {
     type        = string
     default = "eu-west-1"
 }
-
 variable "AZ1" {
     description = "Availability Zone 1"
     type        = string

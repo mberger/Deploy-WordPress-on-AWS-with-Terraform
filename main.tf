@@ -36,6 +36,9 @@ resource "aws_subnet" "public_subnet" {
   cidr_block        = var.subnet1_cidr
   availability_zone = var.AZ1
   map_public_ip_on_launch = "true" // it makes this a public subnet
+  tags = {
+    Name = "EC2-public-subnet"
+  }
 }
 
 // Private subnet for RDS instance
@@ -44,6 +47,9 @@ resource "aws_subnet" "private_subnet_1" {
   cidr_block        = var.subnet2_cidr
   availability_zone = var.AZ2
   map_public_ip_on_launch = "false" // it makes private subnet
+  tags = {
+    Name = "RDS-private-subnet-1"
+  }
 }
 
 // Second Private subnet for RDS instance
@@ -52,6 +58,9 @@ resource "aws_subnet" "private_subnet_2" {
   cidr_block        = var.subnet3_cidr
   availability_zone = var.AZ3
   map_public_ip_on_launch = "false" // it makes private subnet
+  tags = {
+    Name = "RDS-private-subnet-2"
+  }
 }
 
 // Create an Internet Gateway for the VPC
@@ -144,7 +153,7 @@ resource "aws_security_group" "RDS_allow_rule" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "allow ec2"
+    Name = "RDS-allow-ec2-sg"
   }
 
 }
@@ -171,6 +180,10 @@ resource "aws_db_instance" "wordpress_db" {
   // make sure the rds manual password changes is ignored
   lifecycle {
     ignore_changes = [ password ]
+  }
+
+  tags = {
+    Name = "wordpress-database"
   }
 }
 
@@ -264,7 +277,7 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
   acl    = "private"
 }
 
-// Upload the background wallpaper to the WordPress S3 bucket
+// Upload an image to the WordPress S3 bucket
 resource "null_resource" "upload_media_files" {
   depends_on = [aws_s3_bucket.wordpress_bucket]
 
