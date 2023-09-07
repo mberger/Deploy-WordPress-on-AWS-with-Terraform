@@ -2,7 +2,7 @@
   terraform {
     backend "s3" {
       bucket = "terraforming-mars"    // name of your S3 bucket
-      key = "terraform.tfstate"       // Dont touch it it's good ;)
+      key = "terraform.tfstate"       // Dont need to touch it, it's good ;)
       region = "eu-west-1"            // name of your region
       dynamodb_table = "terraforming-mars"          // name of your dynamo database table
     }
