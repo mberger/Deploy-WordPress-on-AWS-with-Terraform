@@ -1,0 +1,44 @@
+// Null resource for waiting on Wordpress installation
+  resource "null_resource" "Wordpress_installation_waiting" {
+    // trigger will create new null-resource if ec2 or rds is changed
+    triggers = {
+      ec2_id = aws_instance.wordpress_instance.id
+      rds_endpoint = aws_db_instance.wordpress_db.endpoint
+    }
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = file(var.PRIV_KEY_PATH)
+      host = aws_eip.eip.public_ip
+    }
+
+    provisioner "remote-exec" {
+      inline = [ "sudo tail -f -n0 /var/log/cloud-init-output.log| grep -q 'WordPress Installed'" ]
+    }
+  }
+
+  // Upload an image to the WordPress S3 bucket
+  resource "null_resource" "upload_media_files" {
+    depends_on = [aws_s3_bucket.wordpress_bucket]
+
+    triggers = {
+      always_run = "${timestamp()}"
+    }
+    // Check if AWS cli exists on unix based system
+    provisioner "local-exec" {
+      command = "if [ $(uname -s) != 'Windows_NT' ]; then which aws || exit 1; fi"
+    }
+    // Check if AWS cli exists on windows system
+    provisioner "local-exec" {
+      command = "if [ $(uname -s) == 'Windows_NT' ]; then where aws || exit 1; fi"
+    }
+    // Run the upload_from_unix.sh file
+    provisioner "local-exec" {
+    command = "if [ $(uname -s) != 'Windows_NT' ]; then chmod +x ${path.module}/scripts/upload_from_unix.sh && ${path.module}/scripts/upload_from_unix.sh ${aws_s3_bucket.wordpress_bucket.bucket}; fi"
+    }
+    // Run the upload_from_windows.ps1 file
+    provisioner "local-exec" {
+      command = "if [ $(uname -s) == 'Windows_NT' ]; then powershell.exe -File ${path.module}/scripts/upload_from_windows.ps1 ${aws_s3_bucket.wordpress_bucket.bucket}; fi"
+    }
+  }
