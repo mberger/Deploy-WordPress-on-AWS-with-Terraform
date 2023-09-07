@@ -102,4 +102,4 @@ Note: This action will permanently delete all the resources. Make sure you have 
 
 ## Reminder
 
-This project deals with sensitive information, such as AWS access keys and database credentials.Aavoid sharing these with unauthorized parties. Always follow best security practices when working with cloud resources.
+This project deals with sensitive information, such as AWS access keys and database credentials. Avoid sharing these with unauthorized parties. Always follow best security practices when working with cloud resources.
