@@ -9,9 +9,9 @@ TEMP_DIR=$(mktemp -d)
 # Counter
 count=0
 
-# Find files smaller than 10MB
-find /home -type f -size -10240k | while read -r file; do
-  if [ "$count" -lt 2 ]; then
+# Find files smaller than 10MB with specific extensions
+find /home -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.pdf" \) -size -10240k | while read -r file; do
+  if [ "$count" -lt 1 ]; then
     echo "Copying $file to $TEMP_DIR"
     cp "$file" "$TEMP_DIR/"
     ((count++))
