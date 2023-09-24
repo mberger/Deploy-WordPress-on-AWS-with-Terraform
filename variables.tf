@@ -1,8 +1,3 @@
-variable "shared_credentials_file" {
-    description = "Location of the AWS credentials file"
-    type        = string
-    default = "~/.aws/credentials"
-}
 variable "region" {
     description = "AWS region"
     type        = string
