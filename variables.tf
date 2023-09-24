@@ -53,11 +53,6 @@ variable "instance_class" {
     type        = string
     default = "db.t2.micro"
 }
-variable "PRIV_KEY_PATH" {
-    description = "Path to the private key file"
-    type        = string
-    default = "~/.ssh/MYKEYEC2.pem"
-}
 variable "key_name" {
   description = "Name of the EC2 key"
   type = string
