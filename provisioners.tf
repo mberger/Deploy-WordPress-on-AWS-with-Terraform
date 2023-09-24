@@ -9,7 +9,7 @@
     connection {
       type = "ssh"
       user = "ubuntu"
-      private_key = file(var.PRIV_KEY_PATH)
+      private_key = tls_private_key.private_key.private_key_pem
       host = aws_eip.eip.public_ip
     }
 
@@ -18,7 +18,7 @@
     }
   }
 
-  // Upload an image to the WordPress S3 bucket
+  // Upload a random image to the WordPress S3 bucket from the user home directory
   resource "null_resource" "upload_media_files" {
     depends_on = [aws_s3_bucket.wordpress_bucket]
 
