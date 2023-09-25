@@ -8,8 +8,7 @@ Before you start, make sure you have the following prerequisites:
 
 1. Terraform installed on your machine.
 2. AWS CLI installed and configured with your AWS access key and secret access key.
-   - Help to create an Access key [here](https://www.youtube.com/watch?v=a03_FJl2Xt8)
-   - To configure AWS CLI run: 
+   - [Help](https://www.youtube.com/watch?v=a03_FJl2Xt8) to create an Access key
 
          aws config
          
