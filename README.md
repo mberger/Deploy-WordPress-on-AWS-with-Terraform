@@ -8,27 +8,18 @@ Before you start, make sure you have the following prerequisites:
 
 1. Terraform installed on your machine.
 2. AWS CLI installed and configured with your AWS access key and secret access key.
+   - Help to create an Access key [here](https://www.youtube.com/watch?v=a03_FJl2Xt8)
+   - To configure AWS CLI run: ```aws config```
+   - Enter the keys and region
 
 ## Additional Notes
 
-   - The project uses an Ubuntu EC2 instance. You can change the AMI in aws_ami.tf if you prefer a different operating system.
+   - The project uses an Ubuntu EC2 instance.
    - The EC2 instance is launched with an SSH key.
    - The userdata_ubuntu.tpl script installs WordPress and configures it with the provided database and S3 settings.
    - The S3 bucket is created to store media files for WordPress.
 
 ## Initial AWS Resource Setup
-
-### If you don't have an existing key pair to launch the EC2 instance with SSH key:
-   - Go to the AWS Management Console.
-   - Navigate to the EC2 service.
-   - Click on "Key pairs".
-   - Click on "Create key pair".
-   - Give a name to your key.
-   - Choose the "RSA" key pair type.
-   - Choose the ".pem" private key file format.
-   - Click on "Create key pair".
-  
-   When you generate a key pair through the AWS Management Console, the private key file will be downloaded directly to your computer. Move it to the "~/.ssh/" location.
 
 ### Create an S3 bucket to manage the Terraform state file:
    - Go to the AWS Management Console.
