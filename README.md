@@ -10,7 +10,7 @@ Before you start, make sure you have the following prerequisites:
 2. AWS CLI installed and configured with your AWS access key and secret access key.
    - Help to create an Access key [here](https://www.youtube.com/watch?v=a03_FJl2Xt8)
    - To configure AWS CLI run: 
-   - ```aws config```
+         aws config
    - Enter the keys and region
 
 ## Additional Notes
