@@ -9,7 +9,10 @@ Before you start, make sure you have the following prerequisites:
 1. Terraform installed on your machine.
 2. AWS CLI installed and configured with your AWS access key and secret access key.
    - Help to create an Access key [here](https://www.youtube.com/watch?v=a03_FJl2Xt8)
-   - To configure AWS CLI run: ```aws config```
+   - To configure AWS CLI run: 
+
+         aws config
+         
    - Enter the keys and region
 
 ## Additional Notes
@@ -52,7 +55,7 @@ Before you start, make sure you have the following prerequisites:
   
     Note: Make sure to keep these files safe and never share them publicly.
 
-3. In the "backend.tf" update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table:
+3. In the "main.tf" update the bucket, region, and dynamodb_table fields with the names you've chosen for your S3 bucket, bucket region, and DynamoDB table:
 
    ```t
       terraform {
@@ -65,7 +68,7 @@ Before you start, make sure you have the following prerequisites:
       }
    ```
 
-4. Update the variables.tf file with your desired settings (region, instance type, key name, etc.) and don't forget to update the default value of the "PRIV_KEY_PATH", which is usually: "~/.ssh/yourkey.pem".
+4. Update the variables.tf file with your desired settings (region, instance type, key name, etc.).
    
 5. Initialize Terraform:
    
