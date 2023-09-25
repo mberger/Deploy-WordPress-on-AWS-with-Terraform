@@ -25,7 +25,7 @@
 
   // Populates and renders the user data script for automated WordPress setup on an AWS EC2 instance.
   data "template_file" "user_data" {
-    template = file("${path.module}/latest/userdata_ubuntu.tpl")
+    template = file("${path.module}/templates/userdata_ubuntu.tpl")
     vars = {
       db_username = local.database_user
       db_user_password = local.database_password
