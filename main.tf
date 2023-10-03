@@ -1,7 +1,6 @@
 // Configure the AWS provider
 provider "aws" {
   region  = var.region
-  profile = "default"
 }
 
 // Random provider to create random suffix for the S3 wordpress bucket
