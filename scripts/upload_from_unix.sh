@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 # Your S3 bucket
 S3_BUCKET=$1
 
@@ -22,7 +22,7 @@ done
 
 # Upload to S3
 echo "Uploading files to S3 bucket: $S3_BUCKET"
-aws s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/" || {
+aws s3 sync "$TEMP_DIR/" "s3://$S3_BUCKET/" --debug 2>&1 || {
   echo "Failed to upload to S3. Exiting."
   exit 1
 }
