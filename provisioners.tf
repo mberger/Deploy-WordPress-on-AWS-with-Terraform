@@ -45,11 +45,11 @@ resource "null_resource" "upload_media_files" {
 
 resource "null_resource" "empty_bucket" {
   triggers = {
-    always_run = "${timestamp()}"
+    bucket_name = aws_s3_bucket.wordpress_bucket.bucket
   }
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.moduel}/scripts/empty_s3_bucket.sh ${aws_s3_bucket.wordpress_bucket.bucket}"
+    command = "${path.moduel}/scripts/empty_s3_bucket.sh ${self.triggers.bucket_name}"
   }
 }
