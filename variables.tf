@@ -58,22 +58,33 @@ variable "root_volume_size" {
   type        = number
   default     = 22
 }
+// Don't add default value, the value will be set throught the workflow
 variable "aws_access_key_id" {
+  description = "AWS access Key ID"
   type = string
+  sensitive = true
 }
-
+// Don't add default value, the value will be set throught the workflow
 variable "aws_secret_access_key" {
+  description = "AWS secret access Key"
   type = string
+  sensitive = true
 }
-
+// Don't add default value, the value will be set throught the workflow
 variable "database_name" {
+  description = "Name of your database"
   type = string
+  sensitive = true
 }
-
+// Don't add default value, the value will be set throught the workflow
 variable "database_password" {
+  description = "Password of your database"
   type = string
+  sensitive = true
 }
-
+// Don't add default value, the value will be set throught the workflow
 variable "database_user" {
+  description = "User of the database"
   type = string
+  sensitive = true
 }

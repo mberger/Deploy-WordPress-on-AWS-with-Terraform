@@ -3,12 +3,12 @@
 name: Terraform WordPress
 
 on:
-  # push:
-  #   branches:
-  #     - development
-  # pull_request:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
