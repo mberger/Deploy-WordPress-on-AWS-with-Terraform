@@ -45,7 +45,8 @@ Before you start, make sure you have the following prerequisites:
 
 ## Configuration
 
-1. Fork this repository.
+   - **Fork this repository.**
+   
 ### GitHub Secrets Setup
 
 Before running the workflow, ensure you have set up the necessary secrets in the forked GitHub repository. These secrets will be used to configure the AWS CLI and database credentials for the Terraform apply step in the GitHub Actions workflow:
@@ -53,7 +54,7 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 1. Navigate to the forked repository.
 2. Click on "Settings".
 3. In the left sidebar, click on "Secrets and variables" -> "Actions".
-4. Click on "New repository secret" and add the following secrets:
+4. Click on "New repository secret" and add the following secrets one by one:
 
    - `AWS_ACCESS_KEY_ID`: Your AWS access key ID.
    - `AWS_REGION`: The region of your account (us-east-1 or eu-west-3 or etc.).
@@ -68,7 +69,7 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 
 1. Clone the forked Repository.
 
-2. In the "main.tf" update the bucket, region, and dynamodb_table fields with the names you've created the S3 bucket and DynamoDB table to handle backend services:
+2. In the "main.tf" update the bucket, region, and dynamodb_table fields with the names you've been created the S3 bucket and DynamoDB table to handle backend services:
 
    ```t
       terraform {
@@ -89,12 +90,14 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 5. Commit your changes.
 6. Push your commit.
 
+**Note:** If you destroyed the infrastructure and you want to rerun the workflow, you can run manually (You dont have to push). Select the workflow on GitHub Actions and on the right side click on the "Run workflow".
+
 ## Accessing WordPress
 
-1. Go back to the repository on Github and click on the "Actions".
-2. On the left select the "Terraform WordPress" workflow.
+1. Go back to your forked repository on Github and click on the "Actions".
+2. On the left, select the "Terraform WordPress" workflow.
 3. Click on the commit which triggered the workflow.
-4. If the workflow succeded open down the "Terraform apply" step.
+4. When the workflow succeded open down the "Terraform apply" step.
 5. At the end of this step look after a line which starts with "INFO", you will find the URL of the Wordpress instance.
 6. Open it and set up your WordPress account. :)   
 
@@ -113,7 +116,7 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 
 ## View of the Infrastructure
 
-1. View of the infrastructure: ![Screenshot](WordPress-infrasructure.png)
+![Screenshot](WordPress-infrasructure.png)
 
 
 ## Reminder
