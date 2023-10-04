@@ -50,6 +50,6 @@ resource "null_resource" "empty_bucket" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.moduel}/scripts/empty_s3_bucket.sh ${self.triggers.bucket_name}"
+    command = "${path.module}/scripts/empty_s3_bucket.sh ${self.triggers.bucket_name}"
   }
 }
