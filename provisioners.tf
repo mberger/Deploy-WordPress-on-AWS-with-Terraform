@@ -23,7 +23,7 @@ resource "null_resource" "upload_media_files" {
   depends_on = [aws_s3_bucket.wordpress_bucket]
 
   triggers = {
-    always_run = "${timestamp()}"
+    bucket_arn = aws_s3_bucket.wordpress_bucket.arn
   }
   // Check if AWS cli exists on unix based system
   provisioner "local-exec" {
@@ -40,5 +40,16 @@ resource "null_resource" "upload_media_files" {
   // Run the upload_from_windows.ps1 file
   provisioner "local-exec" {
     command = "if [ $(uname -s) == 'Windows_NT' ]; then powershell.exe -File ${path.module}/scripts/upload_from_windows.ps1 ${aws_s3_bucket.wordpress_bucket.bucket}; fi"
+  }
+}
+
+resource "null_resource" "empty_bucket" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "${path.moduel}/scripts/empty_s3_bucket.sh ${aws_s3_bucket.wordpress_bucket.bucket}"
   }
 }
