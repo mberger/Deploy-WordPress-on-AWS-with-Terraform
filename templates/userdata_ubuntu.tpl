@@ -43,14 +43,10 @@ sed -i "s/localhost/$db_RDS/g" /var/www/html/wp-config.php
 cat <<EOF >> /var/www/html/wp-config.php
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '128M');
-define( 'AS3CF_SETTINGS', serialize( array (
-
-    'provider' => 'aws',
-    'access-key-id' => '$access_key',
-    'secret-access-key' => '$secret_access_key',
-
-) ) );
 EOF
+
+# Insert AS3CF_SETTINGS into wp-config.php
+sed -i "/\/\* Add any custom values between this line and the \"stop editing\" line. \*\//a define( 'AS3CF_SETTINGS', serialize( array (\n    'provider' => 'aws',\n    'access-key-id' => '$access_key',\n    'secret-access-key' => '$secret_access_key',\n) ) );" /var/www/html/wp-config.php
 
 # Change ownership and permissions of /var/www/html
 chown -R ubuntu:www-data /var/www/html
