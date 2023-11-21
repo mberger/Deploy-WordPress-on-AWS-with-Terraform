@@ -2,6 +2,10 @@
 
 This Terraform project allows you to deploy a WordPress website on AWS using EC2, RDS, and S3. It sets up an Ubuntu EC2 instance, an RDS MySQL database, and an S3 bucket for media files storage. The Terraform state file will be managed from an S3 bucket, and the Terraform state locking is set up with DynamoDB.
 
+## Reminder
+
+This project deals with sensitive information, such as AWS access keys and database credentials. Avoid sharing these with unauthorized parties. Always follow best security practices when working with cloud resources.
+
 ## Prerequisites
 
 Before you start, make sure you have the following prerequisites:
@@ -45,8 +49,8 @@ Before you start, make sure you have the following prerequisites:
 
 ## Configuration
 
-   - **Fork this repository.**
-   
+- **Fork this repository.**
+
 ### GitHub Secrets Setup
 
 Before running the workflow, ensure you have set up the necessary secrets in the forked GitHub repository. These secrets will be used to configure the AWS CLI and database credentials for the Terraform apply step in the GitHub Actions workflow:
@@ -99,7 +103,7 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 3. Click on the commit which triggered the workflow.
 4. When the workflow succeded open down the "Terraform apply" step.
 5. At the end of this step look after a line which starts with "INFO", you will find the URL of the Wordpress instance.
-6. Open it and set up your WordPress account. :)   
+6. Open it and set up your WordPress account. :)
 
 ## Cleanup
 
@@ -116,9 +120,4 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 
 ## View of the Infrastructure
 
-![Screenshot](WordPress-infrasructure.png)
-
-
-## Reminder
-
-This project deals with sensitive information, such as AWS access keys and database credentials. Avoid sharing these with unauthorized parties. Always follow best security practices when working with cloud resources.
+![Screenshot](WordPress-infrastructure.png)
