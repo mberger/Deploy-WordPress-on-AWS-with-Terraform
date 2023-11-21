@@ -7,7 +7,7 @@ resource "random_string" "suffix" {
 
 // Create an S3 bucket to store WordPress objects
 resource "aws_s3_bucket" "wordpress_bucket" {
-  bucket        = "wordpress-bucket-${random_string.suffix.result}"
+  bucket        = "my-wordpress-bucket-${random_string.suffix.result}"
   force_destroy = false
 }
 
