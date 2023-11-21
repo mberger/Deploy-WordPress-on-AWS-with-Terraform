@@ -105,6 +105,19 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 5. At the end of this step look after a line which starts with "INFO", you will find the URL of the Wordpress instance.
 6. Open it and set up your WordPress account. :)
 
+## Enable S3 bucket to store media files
+
+1.  On the left-hand sidebar click on `Plugins` -> `Add New Plugin`
+2.  Search on `s3` and look after this `WP Offload Media Lite for Amazon S3, DigitalOcean Spaces, and Google Cloud Storage`
+3.  Install
+4.  Activate
+5.  Under the `Settings` choose `WP Offload Media`
+6.  Select `Use Existing Bucket` -> select the bucket: my-wordpress-bucket-somerandomsuffix
+7.  Turn Off both: `Block All Public Access` and `Object Ownership`
+8.  Turn On: `Remove Local Media`
+9.  You can specify the Bucket Path if you want under the `Add Prefix to Bucket Path` like: `media/` and you can turn off the `Add Year & Month to Bucket Path` and `Add Object Version to Bucket Path` if you want
+10. Now go to `Media` -> `Add New Media File` -> select for example an image to upload -> copy the url of the image -> open a new browser tab and paste the url -> if you see your image, then everything is perfect :)
+
 ## Cleanup
 
 1. Destroy the infrastructure:
