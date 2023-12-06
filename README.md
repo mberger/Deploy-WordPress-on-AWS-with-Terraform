@@ -89,7 +89,7 @@ Before running the workflow, ensure you have set up the necessary secrets in the
 3. Update the variables.tf file with your desired settings (region, instance type, key name, etc.).
 4. Run this command to initialize a working directory containing Terraform configuration files:
 
-   terraform init
+   `terraform init`
 
 5. Commit your changes.
 6. Push your commit.
