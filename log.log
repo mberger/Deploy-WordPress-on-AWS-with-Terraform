@@ -1,0 +1,167 @@
+2025-01-11T17:16:32.092-0500 [INFO]  Terraform version: 1.5.7
+2025-01-11T17:16:32.093-0500 [DEBUG] using github.com/hashicorp/go-tfe v1.26.0
+2025-01-11T17:16:32.093-0500 [DEBUG] using github.com/hashicorp/hcl/v2 v2.16.2
+2025-01-11T17:16:32.093-0500 [DEBUG] using github.com/hashicorp/terraform-svchost v0.1.0
+2025-01-11T17:16:32.093-0500 [DEBUG] using github.com/zclconf/go-cty v1.12.2
+2025-01-11T17:16:32.093-0500 [INFO]  Go runtime version: go1.23.1
+2025-01-11T17:16:32.093-0500 [INFO]  CLI args: []string{"terraform", "apply", "--auto-approve"}
+2025-01-11T17:16:32.093-0500 [TRACE] Stdout is not a terminal
+2025-01-11T17:16:32.093-0500 [TRACE] Stderr is not a terminal
+2025-01-11T17:16:32.093-0500 [TRACE] Stdin is a terminal
+2025-01-11T17:16:32.093-0500 [DEBUG] Attempting to open CLI config file: /Users/mberger/.terraformrc
+2025-01-11T17:16:32.093-0500 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
+2025-01-11T17:16:32.093-0500 [DEBUG] ignoring non-existing provider search directory terraform.d/plugins
+2025-01-11T17:16:32.093-0500 [DEBUG] ignoring non-existing provider search directory /Users/mberger/.terraform.d/plugins
+2025-01-11T17:16:32.093-0500 [DEBUG] ignoring non-existing provider search directory /Users/mberger/Library/Application Support/io.terraform/plugins
+2025-01-11T17:16:32.093-0500 [DEBUG] ignoring non-existing provider search directory /Library/Application Support/io.terraform/plugins
+2025-01-11T17:16:32.094-0500 [INFO]  CLI command args: []string{"apply", "--auto-approve"}
+2025-01-11T17:16:32.103-0500 [TRACE] Meta.Backend: built configuration for "s3" backend with hash value 3592629958
+2025-01-11T17:16:32.104-0500 [TRACE] Preserving existing state lineage "d181eb46-44d4-08fd-28c7-504f3da01398"
+2025-01-11T17:16:32.104-0500 [TRACE] Preserving existing state lineage "d181eb46-44d4-08fd-28c7-504f3da01398"
+2025-01-11T17:16:32.105-0500 [TRACE] Meta.Backend: working directory was previously initialized for "s3" backend
+2025-01-11T17:16:32.105-0500 [TRACE] Meta.Backend: using already-initialized, unchanged "s3" backend configuration
+2025-01-11T17:16:32.107-0500 [INFO]  AWS Auth provider used: "SharedCredentialsProvider"
+2025-01-11T17:16:32.108-0500 [DEBUG] Trying to get account information via sts:GetCallerIdentity
+2025-01-11T17:16:32.114-0500 [DEBUG] [aws-sdk-go] DEBUG: Request sts/GetCallerIdentity Details:
+---[ REQUEST POST-SIGN ]-----------------------------
+POST / HTTP/1.1
+Host: sts.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.5.7 aws-sdk-go/1.44.122 (go1.23.1; darwin; arm64)
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=AKIAQUFLQKNL7VAGVJ4U/20250111/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=d30d362b5fb00f21555bf82ac24120da95977a39de51b07511443244ea64cc7b
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+X-Amz-Date: 20250111T221632Z
+Accept-Encoding: gzip
+
+Action=GetCallerIdentity&Version=2011-06-15
+-----------------------------------------------------
+2025-01-11T17:16:32.313-0500 [DEBUG] [aws-sdk-go] DEBUG: Response sts/GetCallerIdentity Details:
+---[ RESPONSE ]--------------------------------------
+HTTP/1.1 200 OK
+Connection: close
+Content-Length: 404
+Content-Type: text/xml
+Date: Sat, 11 Jan 2025 22:16:31 GMT
+X-Amzn-Requestid: 95644ce4-6daf-46a7-8826-a039d9db3920
+
+
+-----------------------------------------------------
+2025-01-11T17:16:32.313-0500 [DEBUG] [aws-sdk-go] <GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <GetCallerIdentityResult>
+    <Arn>arn:aws:iam::043309355863:user/tf-user</Arn>
+    <UserId>AIDAQUFLQKNLYPH2FPZFL</UserId>
+    <Account>043309355863</Account>
+  </GetCallerIdentityResult>
+  <ResponseMetadata>
+    <RequestId>95644ce4-6daf-46a7-8826-a039d9db3920</RequestId>
+  </ResponseMetadata>
+</GetCallerIdentityResponse>
+2025-01-11T17:16:32.314-0500 [TRACE] Meta.Backend: instantiated backend of type *s3.Backend
+2025-01-11T17:16:32.315-0500 [DEBUG] checking for provisioner in "."
+2025-01-11T17:16:32.320-0500 [DEBUG] checking for provisioner in "/opt/homebrew/bin"
+2025-01-11T17:16:32.320-0500 [TRACE] Meta.Backend: backend *s3.Backend does not support operations, so wrapping it in a local backend
+2025-01-11T17:16:32.322-0500 [INFO]  backend/local: starting Apply operation
+2025-01-11T17:16:32.323-0500 [TRACE] backend/local: requesting state manager for workspace "default"
+2025-01-11T17:16:32.325-0500 [DEBUG] [aws-sdk-go] DEBUG: Request s3/ListObjects Details:
+---[ REQUEST POST-SIGN ]-----------------------------
+GET /?max-keys=1000&prefix=env%3A%2F HTTP/1.1
+Host: mdl-wp-s3-bucket.s3.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.5.7 aws-sdk-go/1.44.122 (go1.23.1; darwin; arm64)
+Authorization: AWS4-HMAC-SHA256 Credential=AKIAQUFLQKNL7VAGVJ4U/20250111/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=da9c5604ebb6b124c07b81c669f3f8a074e8d990ab224ceaa2a98583e45d8b83
+X-Amz-Content-Sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+X-Amz-Date: 20250111T221632Z
+Accept-Encoding: gzip
+
+
+-----------------------------------------------------
+2025-01-11T17:16:32.435-0500 [DEBUG] [aws-sdk-go] DEBUG: Response s3/ListObjects Details:
+---[ RESPONSE ]--------------------------------------
+HTTP/1.1 400 Bad Request
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: application/xml
+Date: Sat, 11 Jan 2025 22:16:32 GMT
+Server: AmazonS3
+X-Amz-Bucket-Region: us-east-2
+X-Amz-Id-2: 99aklYwKy55rmPSAam564jhI9lpepqch8CoS+Z9fNLE9TAaaC6f8jk6rfQ8emdZNzovtslTpkRk=
+X-Amz-Request-Id: GQTM4FNH0VQJVYR5
+
+
+-----------------------------------------------------
+2025-01-11T17:16:32.435-0500 [DEBUG] [aws-sdk-go] <?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AuthorizationHeaderMalformed</Code><Message>The authorization header is malformed; the region 'us-east-1' is wrong; expecting 'us-east-2'</Message><Region>us-east-2</Region><RequestId>GQTM4FNH0VQJVYR5</RequestId><HostId>99aklYwKy55rmPSAam564jhI9lpepqch8CoS+Z9fNLE9TAaaC6f8jk6rfQ8emdZNzovtslTpkRk=</HostId></Error>
+2025-01-11T17:16:32.435-0500 [DEBUG] [aws-sdk-go] DEBUG: Validate Response s3/ListObjects failed, attempt 0/5, error AuthorizationHeaderMalformed: The authorization header is malformed; the region 'us-east-1' is wrong; expecting 'us-east-2'
+	status code: 400, request id: GQTM4FNH0VQJVYR5, host id: 99aklYwKy55rmPSAam564jhI9lpepqch8CoS+Z9fNLE9TAaaC6f8jk6rfQ8emdZNzovtslTpkRk=
+2025-01-11T17:16:32.435-0500 [TRACE] backend/local: requesting state lock for workspace "default"
+2025-01-11T17:16:32.438-0500 [DEBUG] [aws-sdk-go] DEBUG: Request dynamodb/PutItem Details:
+---[ REQUEST POST-SIGN ]-----------------------------
+POST / HTTP/1.1
+Host: dynamodb.us-east-1.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.5.7 aws-sdk-go/1.44.122 (go1.23.1; darwin; arm64)
+Content-Length: 440
+Accept-Encoding: identity
+Authorization: AWS4-HMAC-SHA256 Credential=AKIAQUFLQKNL7VAGVJ4U/20250111/us-east-1/dynamodb/aws4_request, SignedHeaders=accept-encoding;content-length;content-type;host;x-amz-date;x-amz-target, Signature=5d10d9cb161d1f111ce6c815f9292f2712d7bc26a034daff4616b152a6e587e0
+Content-Type: application/x-amz-json-1.0
+X-Amz-Date: 20250111T221632Z
+X-Amz-Target: DynamoDB_20120810.PutItem
+
+{"ConditionExpression":"attribute_not_exists(LockID)","Item":{"Info":{"S":"{\"ID\":\"59b0dd40-713b-08a5-a572-15dd0401205c\",\"Operation\":\"OperationTypeApply\",\"Info\":\"\",\"Who\":\"mberger@Michaels-MacBook-Pro-5.local\",\"Version\":\"1.5.7\",\"Created\":\"2025-01-11T22:16:32.436712Z\",\"Path\":\"mdl-wp-s3-bucket/terraform.tfstate\"}"},"LockID":{"S":"mdl-wp-s3-bucket/terraform.tfstate"}},"TableName":"wordpress-state-locking-service"}
+-----------------------------------------------------
+2025-01-11T17:16:32.641-0500 [DEBUG] [aws-sdk-go] DEBUG: Response dynamodb/PutItem Details:
+---[ RESPONSE ]--------------------------------------
+HTTP/1.1 400 Bad Request
+Connection: close
+Content-Length: 112
+Content-Type: application/x-amz-json-1.0
+Date: Sat, 11 Jan 2025 22:16:32 GMT
+Server: Server
+X-Amz-Crc32: 3737639027
+X-Amzn-Requestid: U23ASI1RVFIL0BJU5VMU9O7OBJVV4KQNSO5AEMVJF66Q9ASUAAJG
+
+
+-----------------------------------------------------
+2025-01-11T17:16:32.641-0500 [DEBUG] [aws-sdk-go] {"__type":"com.amazonaws.dynamodb.v20120810#ResourceNotFoundException","message":"Requested resource not found"}
+2025-01-11T17:16:32.641-0500 [DEBUG] [aws-sdk-go] DEBUG: Validate Response dynamodb/PutItem failed, attempt 0/5, error ResourceNotFoundException: Requested resource not found
+2025-01-11T17:16:32.642-0500 [DEBUG] [aws-sdk-go] DEBUG: Request dynamodb/GetItem Details:
+---[ REQUEST POST-SIGN ]-----------------------------
+POST / HTTP/1.1
+Host: dynamodb.us-east-1.amazonaws.com
+User-Agent: APN/1.0 HashiCorp/1.0 Terraform/1.5.7 aws-sdk-go/1.44.122 (go1.23.1; darwin; arm64)
+Content-Length: 167
+Accept-Encoding: identity
+Authorization: AWS4-HMAC-SHA256 Credential=AKIAQUFLQKNL7VAGVJ4U/20250111/us-east-1/dynamodb/aws4_request, SignedHeaders=accept-encoding;content-length;content-type;host;x-amz-date;x-amz-target, Signature=cb1413d9d98a7dccc416ea3394c340b665719a723605239e81a51e461002666d
+Content-Type: application/x-amz-json-1.0
+X-Amz-Date: 20250111T221632Z
+X-Amz-Target: DynamoDB_20120810.GetItem
+
+{"ConsistentRead":true,"Key":{"LockID":{"S":"mdl-wp-s3-bucket/terraform.tfstate"}},"ProjectionExpression":"LockID, Info","TableName":"wordpress-state-locking-service"}
+-----------------------------------------------------
+2025-01-11T17:16:32.790-0500 [DEBUG] [aws-sdk-go] DEBUG: Response dynamodb/GetItem Details:
+---[ RESPONSE ]--------------------------------------
+HTTP/1.1 400 Bad Request
+Connection: close
+Content-Length: 112
+Content-Type: application/x-amz-json-1.0
+Date: Sat, 11 Jan 2025 22:16:32 GMT
+Server: Server
+X-Amz-Crc32: 3737639027
+X-Amzn-Requestid: 5JUNQ5V7M17GHBP3N9BQGEN70VVV4KQNSO5AEMVJF66Q9ASUAAJG
+
+
+-----------------------------------------------------
+2025-01-11T17:16:32.790-0500 [DEBUG] [aws-sdk-go] {"__type":"com.amazonaws.dynamodb.v20120810#ResourceNotFoundException","message":"Requested resource not found"}
+2025-01-11T17:16:32.790-0500 [DEBUG] [aws-sdk-go] DEBUG: Validate Response dynamodb/GetItem failed, attempt 0/5, error ResourceNotFoundException: Requested resource not found
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mError acquiring the state lock[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mError message: 2 errors occurred:
+[31m│[0m [0m	* ResourceNotFoundException: Requested resource not found
+[31m│[0m [0m	* ResourceNotFoundException: Requested resource not found
+[31m│[0m [0m
+[31m│[0m [0m
+[31m│[0m [0m
+[31m│[0m [0mTerraform acquires a state lock to protect the state from being written
+[31m│[0m [0mby multiple users at the same time. Please resolve the issue above and try
+[31m│[0m [0magain. For most commands, you can disable locking with the "-lock=false"
+[31m│[0m [0mflag, but this is not recommended.
+[31m╵[0m[0m
