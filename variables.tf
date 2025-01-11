@@ -1,22 +1,22 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "eu-west-1"
+  default     = "us-east-1"
 }
 variable "AZ1" {
   description = "Availability Zone 1"
   type        = string
-  default     = "eu-west-1a"
+  default     = "us-east-1a"
 }
 variable "AZ2" {
   description = "Availability Zone 2"
   type        = string
-  default     = "eu-west-1b"
+  default     = "us-east-1b"
 }
 variable "AZ3" {
   description = "Availability Zone 3"
   type        = string
-  default     = "eu-west-1c"
+  default     = "us-east-1c"
 }
 variable "VPC_cidr" {
   description = "CIDR block for the VPC"

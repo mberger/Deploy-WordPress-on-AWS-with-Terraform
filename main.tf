@@ -11,9 +11,9 @@ provider "random" {
 // Configure Terraform backend to store state files on S3 and lock with DynamoDB
 terraform {
   backend "s3" {
-    bucket         = "wordpress-state-files"           // name of your S3 bucket
+    bucket         = "mdl-wp-s3-bucket"           // name of your S3 bucket
     key            = "terraform.tfstate"               // Dont need to touch it, it's good ;)
-    region         = "eu-west-1"                       // name of your region
+    region         = "us-east-1"                       // name of your region
     dynamodb_table = "wordpress-state-locking-service" // name of your dynamo database table
   }
 }
